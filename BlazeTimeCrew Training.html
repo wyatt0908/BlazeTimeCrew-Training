@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Training Schedule</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+    .training { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 0 8px #ccc; }
+  </style>
+</head>
+<body>
+  <h1>Upcoming Trainings</h1>
+  <div id="training-list">Loading...</div>
+
+  <script>
+    fetch("https://script.google.com/macros/s/AKfycbzvc_QUlKrfh6b4vd-3zBauisnfKk45M8Ofw7yO6aMbrVp4tysXsn2486tTfEm3iwtCgg/exec")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("training-list");
+        container.innerHTML = "";
+
+        data.forEach(entry => {
+          const div = document.createElement("div");
+          div.className = "training";
+          div.innerHTML = `
+            <strong>${entry.title}</strong><br>
+            Host: ${entry.host}<br>
+            Time: ${entry.start} ~ ${entry.end}<br>
+            Role: ${entry.role}
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        document.getElementById("training-list").textContent = "Failed to load.";
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
